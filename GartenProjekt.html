@@ -8,10 +8,12 @@
     <style>
       #wetterKnopf { position: fixed; z-index: 10; top: 18px; right: 18px; padding: 12px 18px; border: 2px solid #fff; border-radius: 24px; background: #29455fdd; color: white; font: 600 16px Arial; cursor: pointer; box-shadow: 0 4px 14px #0006; }
       #wetterKnopf:hover { background: #3b6385; transform: translateY(-1px); }
+      #stressStatus { position: fixed; z-index: 10; top: 76px; right: 18px; padding: 8px 12px; border-radius: 14px; background: #162b3dcc; color: white; font: 14px Arial; box-shadow: 0 3px 10px #0005; }
     </style>
   </head>
   <body>
     <button id="wetterKnopf" type="button" aria-pressed="false">🌧 Gewitter starten</button>
+    <div id="stressStatus" role="status" aria-live="polite">Stressdaten werden geladen …</div>
     <a-scene id="szene" shadow="type: pcfsoft" renderer="antialias: true; colorManagement: true; physicallyCorrectLights: true"
          fog="type: linear; color: #87CEEB; near: 120; far: 700">
       <!-- Bodentextur -->
@@ -476,6 +478,8 @@
         }
         // Regen wird kompakt erzeugt; WetterWert 0..1 steuert den weichen Uebergang
         var gewitter = false, blitzTimer, wetterWert = 0, wetterAnimation;
+        var stressDaten = [], stressIndex = 0, stressStartzeit = 0, stressTimer, stressReloadTimer, stressSignatur = '';
+        var stressHoch = 10, stressNiedrig = 6;
         function regenBauen() {
           var regen = document.getElementById('regen');
           for (var i = 0; i < 180; i++) {
@@ -513,8 +517,9 @@
             el.object3D.traverse(function (o) { if (o.material) { o.material.color.set(farbe('#FFFFFF', '#65717C')); } });
           });
         }
-        function wetterUmschalten() {
-          gewitter = !gewitter;
+        function wetterSetzen(neuerZustand) {
+          if (neuerZustand === gewitter && !wetterAnimation) { return; }
+          gewitter = neuerZustand;
           var ziel = gewitter ? 1 : 0, startWert = wetterWert, startZeit = performance.now();
           var dauer = 4500 * Math.abs(ziel - startWert), knopf = document.getElementById('wetterKnopf');
           cancelAnimationFrame(wetterAnimation);
@@ -539,8 +544,60 @@
           }
           wetterAnimation = requestAnimationFrame(uebergang);
         }
+        function wetterUmschalten() { wetterSetzen(!gewitter); }
+        function stressAnzeigen(wert, zeitstempel) {
+          var status = document.getElementById('stressStatus');
+          status.textContent = 'Stress: ' + wert.toFixed(2) + ' | ' + (gewitter ? 'Gewitter' : 'Sonne') + ' | ' + zeitstempel;
+        }
+        function stressAuswerten(probe) {
+          var wert = Number(probe.gsrValue);
+          if (!Number.isFinite(wert)) { return; }
+          if (wert >= stressHoch) { wetterSetzen(true); }
+          if (wert <= stressNiedrig) { wetterSetzen(false); }
+          stressAnzeigen(wert, probe.timestamp);
+        }
+        function stressWiedergabeStarten() {
+          if (!stressDaten.length) { return; }
+          clearInterval(stressTimer);
+          stressIndex = 0;
+          stressStartzeit = performance.now();
+          stressAuswerten(stressDaten[0]);
+          stressTimer = setInterval(function () {
+            var vergangen = performance.now() - stressStartzeit;
+            var start = Date.parse(stressDaten[0].timestamp);
+            while (stressIndex + 1 < stressDaten.length && Date.parse(stressDaten[stressIndex + 1].timestamp) - start <= vergangen) {
+              stressIndex++;
+              stressAuswerten(stressDaten[stressIndex]);
+            }
+            if (stressIndex === stressDaten.length - 1) { stressWiedergabeStarten(); }
+          }, 100);
+        }
+        function stressdatenLaden() {
+          fetch('testdaten_stress_ruhe.json?zeit=' + Date.now(), { cache: 'no-store' })
+            .then(function (antwort) {
+              if (!antwort.ok) { throw new Error('HTTP ' + antwort.status); }
+              return antwort.json();
+            })
+            .then(function (daten) {
+              var gueltigeDaten = daten.filter(function (probe) {
+                return probe && Number.isFinite(Number(probe.gsrValue)) && Date.parse(probe.timestamp) > 0;
+              });
+              if (!gueltigeDaten.length) { throw new Error('Keine gueltigen Stressdaten'); }
+              var neueSignatur = JSON.stringify(gueltigeDaten);
+              if (neueSignatur === stressSignatur) { return; }
+              stressSignatur = neueSignatur;
+              stressDaten = gueltigeDaten;
+              stressWiedergabeStarten();
+            })
+            .catch(function (fehler) {
+              document.getElementById('stressStatus').textContent = 'Stressdaten nicht verfuegbar';
+              console.error('Stressdaten konnten nicht geladen werden:', fehler);
+            });
+        }
         regenBauen();
         document.getElementById('wetterKnopf').addEventListener('click', wetterUmschalten);
+        stressdatenLaden();
+        stressReloadTimer = setInterval(stressdatenLaden, 10000);
         if (document.readyState === 'loading') {
           document.addEventListener('DOMContentLoaded', bepflanzen);
         } else {

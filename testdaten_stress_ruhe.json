@@ -1,0 +1,326 @@
+[
+  {
+    "timestamp": "2026-01-01T10:00:00",
+    "gsrValue": 3.08
+  },
+  {
+    "timestamp": "2026-01-01T10:00:02",
+    "gsrValue": 2.77
+  },
+  {
+    "timestamp": "2026-01-01T10:00:04",
+    "gsrValue": 2.97
+  },
+  {
+    "timestamp": "2026-01-01T10:00:06",
+    "gsrValue": 2.98
+  },
+  {
+    "timestamp": "2026-01-01T10:00:08",
+    "gsrValue": 3.34
+  },
+  {
+    "timestamp": "2026-01-01T10:00:10",
+    "gsrValue": 3.36
+  },
+  {
+    "timestamp": "2026-01-01T10:00:12",
+    "gsrValue": 3.54
+  },
+  {
+    "timestamp": "2026-01-01T10:00:14",
+    "gsrValue": 3.1
+  },
+  {
+    "timestamp": "2026-01-01T10:00:16",
+    "gsrValue": 3.35
+  },
+  {
+    "timestamp": "2026-01-01T10:00:18",
+    "gsrValue": 3.17
+  },
+  {
+    "timestamp": "2026-01-01T10:00:20",
+    "gsrValue": 3.33
+  },
+  {
+    "timestamp": "2026-01-01T10:00:22",
+    "gsrValue": 4.44
+  },
+  {
+    "timestamp": "2026-01-01T10:00:24",
+    "gsrValue": 4.8
+  },
+  {
+    "timestamp": "2026-01-01T10:00:26",
+    "gsrValue": 5.94
+  },
+  {
+    "timestamp": "2026-01-01T10:00:28",
+    "gsrValue": 7.41
+  },
+  {
+    "timestamp": "2026-01-01T10:00:30",
+    "gsrValue": 8.22
+  },
+  {
+    "timestamp": "2026-01-01T10:00:32",
+    "gsrValue": 8.76
+  },
+  {
+    "timestamp": "2026-01-01T10:00:34",
+    "gsrValue": 10.14
+  },
+  {
+    "timestamp": "2026-01-01T10:00:36",
+    "gsrValue": 11.34
+  },
+  {
+    "timestamp": "2026-01-01T10:00:38",
+    "gsrValue": 11.31
+  },
+  {
+    "timestamp": "2026-01-01T10:00:40",
+    "gsrValue": 13.2
+  },
+  {
+    "timestamp": "2026-01-01T10:00:42",
+    "gsrValue": 14.0
+  },
+  {
+    "timestamp": "2026-01-01T10:00:44",
+    "gsrValue": 14.51
+  },
+  {
+    "timestamp": "2026-01-01T10:00:46",
+    "gsrValue": 15.22
+  },
+  {
+    "timestamp": "2026-01-01T10:00:48",
+    "gsrValue": 17.12
+  },
+  {
+    "timestamp": "2026-01-01T10:00:50",
+    "gsrValue": 17.3
+  },
+  {
+    "timestamp": "2026-01-01T10:00:52",
+    "gsrValue": 17.18
+  },
+  {
+    "timestamp": "2026-01-01T10:00:54",
+    "gsrValue": 17.62
+  },
+  {
+    "timestamp": "2026-01-01T10:00:56",
+    "gsrValue": 19.46
+  },
+  {
+    "timestamp": "2026-01-01T10:00:58",
+    "gsrValue": 19.17
+  },
+  {
+    "timestamp": "2026-01-01T10:01:00",
+    "gsrValue": 19.61
+  },
+  {
+    "timestamp": "2026-01-01T10:01:02",
+    "gsrValue": 19.32
+  },
+  {
+    "timestamp": "2026-01-01T10:01:04",
+    "gsrValue": 18.66
+  },
+  {
+    "timestamp": "2026-01-01T10:01:06",
+    "gsrValue": 19.13
+  },
+  {
+    "timestamp": "2026-01-01T10:01:08",
+    "gsrValue": 17.47
+  },
+  {
+    "timestamp": "2026-01-01T10:01:10",
+    "gsrValue": 17.32
+  },
+  {
+    "timestamp": "2026-01-01T10:01:12",
+    "gsrValue": 17.41
+  },
+  {
+    "timestamp": "2026-01-01T10:01:14",
+    "gsrValue": 16.6
+  },
+  {
+    "timestamp": "2026-01-01T10:01:16",
+    "gsrValue": 16.83
+  },
+  {
+    "timestamp": "2026-01-01T10:01:18",
+    "gsrValue": 16.16
+  },
+  {
+    "timestamp": "2026-01-01T10:01:20",
+    "gsrValue": 16.47
+  },
+  {
+    "timestamp": "2026-01-01T10:01:22",
+    "gsrValue": 16.58
+  },
+  {
+    "timestamp": "2026-01-01T10:01:24",
+    "gsrValue": 15.79
+  },
+  {
+    "timestamp": "2026-01-01T10:01:26",
+    "gsrValue": 14.89
+  },
+  {
+    "timestamp": "2026-01-01T10:01:28",
+    "gsrValue": 13.71
+  },
+  {
+    "timestamp": "2026-01-01T10:01:30",
+    "gsrValue": 12.9
+  },
+  {
+    "timestamp": "2026-01-01T10:01:32",
+    "gsrValue": 11.8
+  },
+  {
+    "timestamp": "2026-01-01T10:01:34",
+    "gsrValue": 11.01
+  },
+  {
+    "timestamp": "2026-01-01T10:01:36",
+    "gsrValue": 10.4
+  },
+  {
+    "timestamp": "2026-01-01T10:01:38",
+    "gsrValue": 9.16
+  },
+  {
+    "timestamp": "2026-01-01T10:01:40",
+    "gsrValue": 8.2
+  },
+  {
+    "timestamp": "2026-01-01T10:01:42",
+    "gsrValue": 7.08
+  },
+  {
+    "timestamp": "2026-01-01T10:01:44",
+    "gsrValue": 6.17
+  },
+  {
+    "timestamp": "2026-01-01T10:01:46",
+    "gsrValue": 5.87
+  },
+  {
+    "timestamp": "2026-01-01T10:01:48",
+    "gsrValue": 4.61
+  },
+  {
+    "timestamp": "2026-01-01T10:01:50",
+    "gsrValue": 3.61
+  },
+  {
+    "timestamp": "2026-01-01T10:01:52",
+    "gsrValue": 3.06
+  },
+  {
+    "timestamp": "2026-01-01T10:01:54",
+    "gsrValue": 3.45
+  },
+  {
+    "timestamp": "2026-01-01T10:01:56",
+    "gsrValue": 3.17
+  },
+  {
+    "timestamp": "2026-01-01T10:01:58",
+    "gsrValue": 3.34
+  },
+  {
+    "timestamp": "2026-01-01T10:02:00",
+    "gsrValue": 3.75
+  },
+  {
+    "timestamp": "2026-01-01T10:02:02",
+    "gsrValue": 3.56
+  },
+  {
+    "timestamp": "2026-01-01T10:02:04",
+    "gsrValue": 3.53
+  },
+  {
+    "timestamp": "2026-01-01T10:02:06",
+    "gsrValue": 3.61
+  },
+  {
+    "timestamp": "2026-01-01T10:02:08",
+    "gsrValue": 3.7
+  },
+  {
+    "timestamp": "2026-01-01T10:02:10",
+    "gsrValue": 3.64
+  },
+  {
+    "timestamp": "2026-01-01T10:02:12",
+    "gsrValue": 3.28
+  },
+  {
+    "timestamp": "2026-01-01T10:02:14",
+    "gsrValue": 3.12
+  },
+  {
+    "timestamp": "2026-01-01T10:02:16",
+    "gsrValue": 3.24
+  },
+  {
+    "timestamp": "2026-01-01T10:02:18",
+    "gsrValue": 3.16
+  },
+  {
+    "timestamp": "2026-01-01T10:02:20",
+    "gsrValue": 3.07
+  },
+  {
+    "timestamp": "2026-01-01T10:02:22",
+    "gsrValue": 3.45
+  },
+  {
+    "timestamp": "2026-01-01T10:02:24",
+    "gsrValue": 3.35
+  },
+  {
+    "timestamp": "2026-01-01T10:02:26",
+    "gsrValue": 2.96
+  },
+  {
+    "timestamp": "2026-01-01T10:02:28",
+    "gsrValue": 3.11
+  },
+  {
+    "timestamp": "2026-01-01T10:02:30",
+    "gsrValue": 2.91
+  },
+  {
+    "timestamp": "2026-01-01T10:02:32",
+    "gsrValue": 3.19
+  },
+  {
+    "timestamp": "2026-01-01T10:02:34",
+    "gsrValue": 2.89
+  },
+  {
+    "timestamp": "2026-01-01T10:02:36",
+    "gsrValue": 2.76
+  },
+  {
+    "timestamp": "2026-01-01T10:02:38",
+    "gsrValue": 2.75
+  },
+  {
+    "timestamp": "2026-01-01T10:02:40",
+    "gsrValue": 2.95
+  }
+]
