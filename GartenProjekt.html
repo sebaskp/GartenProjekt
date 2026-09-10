@@ -6,13 +6,10 @@
     <!-- A-Frame -->
     <script src="https://aframe.io/releases/1.6.0/aframe.min.js"></script>
     <style>
-      #wetterKnopf { position: fixed; z-index: 10; top: 18px; right: 18px; padding: 12px 18px; border: 2px solid #fff; border-radius: 24px; background: #29455fdd; color: white; font: 600 16px Arial; cursor: pointer; box-shadow: 0 4px 14px #0006; }
-      #wetterKnopf:hover { background: #3b6385; transform: translateY(-1px); }
       #stressStatus { position: fixed; z-index: 10; top: 76px; right: 18px; padding: 8px 12px; border-radius: 14px; background: #162b3dcc; color: white; font: 14px Arial; box-shadow: 0 3px 10px #0005; }
     </style>
   </head>
   <body>
-    <button id="wetterKnopf" type="button" aria-pressed="false">🌧 Gewitter starten</button>
     <div id="stressStatus" role="status" aria-live="polite">Stressdaten werden geladen …</div>
     <a-scene id="szene" shadow="type: pcfsoft" renderer="antialias: true; colorManagement: true; physicallyCorrectLights: true"
          fog="type: linear; color: #87CEEB; near: 120; far: 700">
@@ -381,7 +378,7 @@
                shadowCameraNear: 0.1; shadowCameraFar: 90; shadowBias: -0.0005"></a-entity>
       <!-- Umgebungslicht -->
       <a-light id="umgebungslicht" type="ambient" color="#93B6D6" intensity="0.65"></a-light>
-      <!-- Regen und Blitz werden vom Wetterknopf gesteuert -->
+      <!-- Regen und Blitz folgen den Stressdaten. -->
       <a-entity id="regen" visible="false"></a-entity>
       <a-light id="blitzlicht" type="point" position="0 14 -6" color="#DCEEFF" intensity="0" distance="45"></a-light>
       <!-- Boden mit Gras-Textur -->
@@ -397,7 +394,7 @@
     </a-scene>
     <script>
       (function () {
-        // Klont eine Vorlage in einen Halter, der Standort, Drehung und Groesse setzt
+        // Klont ein Objekt an eine neue Position.
         function klonen(vorlage, ziel, pos, drehung, groesse) {
           var halter = document.createElement('a-entity');
           halter.setAttribute('position', pos);
@@ -410,7 +407,7 @@
           ziel.appendChild(halter);
           return kopie;
         }
-        // Niedriger Holzzaun mit einem Eingang an der Vorderseite
+        // Baut den Zaun mit Eingang.
         function zaunBauen() {
           var zaun = document.getElementById('zaun');
           function teil(tag, position, groesse, farbe) {
@@ -435,7 +432,7 @@
           [-14, 14].forEach(function (x) { for (var z = -13.5; z <= 1.5; z += 3) { pfosten(x, z, i++); } });
           pfosten(-1.8, 4.5, i++); pfosten(1.8, 4.5, i);
         }
-        // Zufallsplatz auf der Wiese, Blumenbereich und Brunnen bleiben frei
+        // Sucht einen freien Platz fuer Blumen.
         function platzSuchen() {
           for (var v = 0; v < 12; v++) {
             var x = (Math.random() - 0.5) * 25;
@@ -457,7 +454,7 @@
           zaunBauen();
           [[6, 15, -7, 0.9], [-11, 17, -13, 1.15], [1, 19, -17, 1.25], [11, 17, -14, 1.05], [-3, 21, -22, 1.2]]
             .forEach(function (p, i) { klonen(wolke, wolken, p[0] + ' ' + p[1] + ' ' + p[2], -12 + i * 7, p[3]); });
-          // Baeume ringsum
+          // Setzt Baeume und Wolken rund um den Garten.
           [[-9, -4.4], [8.6, -2.8], [3.2, -12.4], [7.2, 2.6], [-12.2, -9.4]]
             .forEach(function (p, i) {
               var kopie = klonen(baum, baeume, p[0] + ' 0 ' + p[1], i * 47, 0.85 + (i % 5) * 0.11);
@@ -468,7 +465,7 @@
                 krone.setAttribute('animation', 'property: rotation; from: 0 -2.4 -1.4; to: 0 2.4 1.4; dir: alternate; loop: true; dur: ' + (dauer - 700) + '; delay: ' + (i * 430 + 200) + '; easing: easeInOutSine');
               }
             });
-          // Blumen aus dem Beet ueber die Wiese streuen
+          // Verteilt Blumen auf der Wiese.
           var vorlagen = beet.querySelectorAll(':scope > a-entity');
           for (var i = 0; i < 110; i++) {
             var pos = platzSuchen();
@@ -476,7 +473,7 @@
             klonen(vorlagen[i % vorlagen.length], wiese, pos, Math.round(Math.random() * 360), 0.55 + Math.random() * 0.5);
           }
         }
-        // Regen wird kompakt erzeugt; WetterWert 0..1 steuert den weichen Uebergang
+        // Erzeugt Regentropfen.
         var gewitter = false, blitzTimer, wetterWert = 0, wetterAnimation;
         var stressDaten = [], stressIndex = 0, stressStartzeit = 0, stressTimer, stressReloadTimer, stressSignatur = '';
         var stressHoch = 10, stressNiedrig = 6;
@@ -506,14 +503,15 @@
           }, 170);
           blitzTimer = setTimeout(blitzen, 1800 + Math.random() * 4200);
         }
+        function element(id) { return document.getElementById(id); }
         function wetterDarstellen(wert) {
           function farbe(von, zu) { return '#' + new THREE.Color(von).lerp(new THREE.Color(zu), wert).getHexString(); }
-          document.getElementById('szene').setAttribute('fog', 'type: exponential; color: ' + farbe('#87CEEB', '#607080') + '; density: ' + (0.0002 + 0.0448 * wert));
-          document.getElementById('himmel').setAttribute('color', farbe('#87CEEB', '#465665'));
-          document.getElementById('sonnenlicht').setAttribute('light', 'intensity', 1.4 - 1.05 * wert);
-          document.getElementById('umgebungslicht').setAttribute('light', 'intensity', 0.65 - 0.33 * wert);
-          document.getElementById('regen').object3D.traverse(function (o) { if (o.material) { o.material.opacity = 0.72 * wert; } });
-          [document.getElementById('wolke'), document.getElementById('wolken')].forEach(function (el) {
+          element('szene').setAttribute('fog', 'type: exponential; color: ' + farbe('#87CEEB', '#607080') + '; density: ' + (0.0002 + 0.0448 * wert));
+          element('himmel').setAttribute('color', farbe('#87CEEB', '#465665'));
+          element('sonnenlicht').setAttribute('light', 'intensity', 1.4 - 1.05 * wert);
+          element('umgebungslicht').setAttribute('light', 'intensity', 0.65 - 0.33 * wert);
+          element('regen').object3D.traverse(function (o) { if (o.material) { o.material.opacity = 0.72 * wert; } });
+          [element('wolke'), element('wolken')].forEach(function (el) {
             el.object3D.traverse(function (o) { if (o.material) { o.material.color.set(farbe('#FFFFFF', '#65717C')); } });
           });
         }
@@ -521,13 +519,11 @@
           if (neuerZustand === gewitter && !wetterAnimation) { return; }
           gewitter = neuerZustand;
           var ziel = gewitter ? 1 : 0, startWert = wetterWert, startZeit = performance.now();
-          var dauer = 4500 * Math.abs(ziel - startWert), knopf = document.getElementById('wetterKnopf');
+          var dauer = 4500 * Math.abs(ziel - startWert);
           cancelAnimationFrame(wetterAnimation);
           clearTimeout(blitzTimer);
-          document.getElementById('blitzlicht').setAttribute('light', 'intensity', 0);
-          document.getElementById('regen').setAttribute('visible', true);
-          knopf.disabled = true;
-          knopf.textContent = gewitter ? '🌦 Gewitter zieht auf …' : '🌤 Wetter klart auf …';
+          element('blitzlicht').setAttribute('light', 'intensity', 0);
+          element('regen').setAttribute('visible', true);
           function uebergang(zeit) {
             var p = Math.min(1, (zeit - startZeit) / Math.max(1, dauer));
             var weich = p * p * (3 - 2 * p);
@@ -535,18 +531,14 @@
             wetterDarstellen(wetterWert);
             if (p < 1) { wetterAnimation = requestAnimationFrame(uebergang); return; }
             if (!gewitter) {
-              document.getElementById('regen').setAttribute('visible', false);
-              document.getElementById('szene').setAttribute('fog', 'type: linear; color: #87CEEB; near: 120; far: 700');
+              element('regen').setAttribute('visible', false);
+              element('szene').setAttribute('fog', 'type: linear; color: #87CEEB; near: 120; far: 700');
             } else { blitzen(); }
-            knopf.disabled = false;
-            knopf.textContent = gewitter ? '☀ Schönes Wetter' : '🌧 Gewitter starten';
-            knopf.setAttribute('aria-pressed', String(gewitter));
           }
           wetterAnimation = requestAnimationFrame(uebergang);
         }
-        function wetterUmschalten() { wetterSetzen(!gewitter); }
         function stressAnzeigen(wert, zeitstempel) {
-          var status = document.getElementById('stressStatus');
+          var status = element('stressStatus');
           status.textContent = 'Stress: ' + wert.toFixed(2) + ' | ' + (gewitter ? 'Gewitter' : 'Sonne') + ' | ' + zeitstempel;
         }
         function stressAuswerten(probe) {
@@ -590,12 +582,11 @@
               stressWiedergabeStarten();
             })
             .catch(function (fehler) {
-              document.getElementById('stressStatus').textContent = 'Stressdaten nicht verfuegbar';
+              element('stressStatus').textContent = 'Stressdaten nicht verfuegbar';
               console.error('Stressdaten konnten nicht geladen werden:', fehler);
             });
         }
         regenBauen();
-        document.getElementById('wetterKnopf').addEventListener('click', wetterUmschalten);
         stressdatenLaden();
         stressReloadTimer = setInterval(stressdatenLaden, 10000);
         if (document.readyState === 'loading') {
